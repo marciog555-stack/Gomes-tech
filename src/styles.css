@@ -1,0 +1,315 @@
+@import 'tailwindcss';
+
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 400 900;
+  font-stretch: 62.5% 125%;
+  font-display: swap;
+  src: url('/fonts/archivo-variable.woff2') format('woff2');
+}
+
+:root {
+  --navy-900: #0e2e4e;
+  --navy-700: #16456f;
+  --cyan-500: #22a2dc;
+  --cyan-300: #5fd0f5;
+  --paper: #f5f7f9;
+  --ink: #0b1e2e;
+  --steel: #6d8296;
+
+  --header-h: 60px;
+  --band-gap-mobile: 64px;
+  --band-gap-desktop: 104px;
+  --content-max: 1100px;
+}
+
+@theme inline {
+  --font-sans: 'Archivo', ui-sans-serif, system-ui, sans-serif;
+  --color-navy-900: var(--navy-900);
+  --color-navy-700: var(--navy-700);
+  --color-cyan-500: var(--cyan-500);
+  --color-cyan-300: var(--cyan-300);
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-steel: var(--steel);
+  --radius-brand: 4px;
+}
+
+html,
+body,
+#app {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-sans);
+  background-color: var(--paper);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: inherit;
+}
+
+/* type scale */
+.h1-brand {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-stretch: 125%;
+  font-size: 32px;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+@media (min-width: 860px) {
+  .h1-brand {
+    font-size: 46px;
+  }
+}
+
+.h2-brand {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-stretch: 125%;
+  font-size: 24px;
+  line-height: 1.15;
+}
+@media (min-width: 860px) {
+  .h2-brand {
+    font-size: 32px;
+  }
+}
+
+.h3-brand {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-stretch: 125%;
+  font-size: 19px;
+  line-height: 1.2;
+}
+@media (min-width: 860px) {
+  .h3-brand {
+    font-size: 22px;
+  }
+}
+
+.body-brand {
+  font-weight: 400;
+  font-stretch: 100%;
+  font-size: 16px;
+  line-height: 1.55;
+}
+@media (min-width: 860px) {
+  .body-brand {
+    font-size: 17px;
+  }
+}
+
+.caption-brand {
+  font-weight: 500;
+  font-stretch: 100%;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.measure {
+  max-width: 38em; /* ~70 characters */
+}
+
+/* layout */
+.band {
+  width: 100%;
+  padding-block: var(--band-gap-mobile);
+}
+@media (min-width: 860px) {
+  .band {
+    padding-block: var(--band-gap-desktop);
+  }
+}
+
+.band-content {
+  max-width: var(--content-max);
+  margin-inline: auto;
+  padding-inline: 20px;
+}
+@media (min-width: 860px) {
+  .band-content {
+    padding-inline: 32px;
+  }
+}
+
+.band-paper {
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.band-navy {
+  background: var(--navy-900);
+  color: var(--paper);
+}
+
+/* buttons + links */
+.btn-brand {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  padding: 14px 26px;
+  font-weight: 700;
+  font-size: 16px;
+  text-decoration: none;
+  transition:
+    transform 140ms ease,
+    background-color 140ms ease,
+    border-color 140ms ease;
+}
+.btn-brand:active {
+  transform: scale(0.97);
+}
+
+.btn-brand-primary {
+  background: var(--cyan-500);
+  color: var(--navy-900);
+}
+.btn-brand-primary:hover {
+  background: var(--cyan-300);
+}
+
+.btn-brand-sm {
+  padding: 9px 14px;
+  font-size: 14px;
+  white-space: nowrap;
+}
+@media (min-width: 480px) {
+  .btn-brand-sm {
+    padding: 10px 18px;
+    font-size: 15px;
+  }
+}
+
+.link-brand {
+  text-decoration: underline;
+  text-decoration-color: color-mix(in oklab, currentColor 35%, transparent);
+  text-underline-offset: 3px;
+  transition:
+    transform 140ms ease,
+    color 140ms ease;
+  display: inline-block;
+}
+.link-brand:active {
+  transform: scale(0.97);
+}
+.link-brand:hover {
+  color: var(--cyan-500);
+}
+
+.filete {
+  height: 2px;
+  background: var(--cyan-500);
+}
+
+.rule-navy {
+  border-color: color-mix(in oklab, var(--paper) 14%, transparent);
+}
+
+.rule-paper {
+  border-color: color-mix(in oklab, var(--ink) 12%, transparent);
+}
+
+/* placeholders for real assets not yet supplied - dashed, muted, obviously provisional */
+.pending {
+  border: 1.5px dashed color-mix(in oklab, var(--steel) 55%, transparent);
+  color: var(--steel);
+  background: color-mix(in oklab, var(--steel) 6%, transparent);
+}
+
+.pending-dark {
+  border-color: rgba(245, 247, 249, 0.4);
+  color: rgba(245, 247, 249, 0.85);
+  background: rgba(245, 247, 249, 0.08);
+}
+
+/* full-bleed product rows: break out of the page container so the image
+   side can run to the true viewport edge while the text side keeps the
+   normal page inset */
+.bleed-shell {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.bleed-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 860px) {
+  .bleed-grid {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    align-items: center;
+  }
+  .bleed-grid.is-reversed {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  }
+}
+
+.bleed-text {
+  padding-inline: 20px;
+  padding-block: 32px;
+}
+@media (min-width: 860px) {
+  .bleed-text {
+    padding-left: max(20px, calc((100vw - var(--content-max)) / 2 + 20px));
+    padding-right: 40px;
+    padding-block: 0;
+  }
+  .is-reversed .bleed-text {
+    order: 2;
+    padding-left: 40px;
+    padding-right: max(20px, calc((100vw - var(--content-max)) / 2 + 20px));
+  }
+  .is-reversed .bleed-image {
+    order: 1;
+  }
+}
+
+.bleed-image img,
+.bleed-image .pending {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* motion */
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-rise {
+  animation: hero-rise 450ms cubic-bezier(0.2, 0.8, 0.3, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-rise {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* keyboard focus visibility */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--cyan-500);
+  outline-offset: 2px;
+}
