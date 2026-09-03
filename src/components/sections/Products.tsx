@@ -31,13 +31,7 @@ function ProductText({
 
       <ul className="body-brand mt-5 space-y-2">
         {bullets.map((b) => (
-          <li key={b} className="flex gap-2.5">
-            <span
-              className="mt-[11px] h-[2px] w-3 shrink-0"
-              style={{ background: 'var(--navy-700)' }}
-            />
-            <span>{b}</span>
-          </li>
+          <li key={b}>{b}</li>
         ))}
       </ul>
 
