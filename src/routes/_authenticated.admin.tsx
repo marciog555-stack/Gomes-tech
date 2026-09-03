@@ -1,7 +1,9 @@
 import { createFileRoute } from '@tanstack/react-router'
+import MonthlyChart from '../components/admin/MonthlyChart'
 import { listClients } from '../lib/admin/clients.functions'
 import { listTransactions } from '../lib/admin/transactions.functions'
 import { daysUntil, dueLabel, nextDueDate } from '../lib/admin/due'
+import { monthlySeries } from '../lib/admin/monthly-series'
 import { chargeWaLink } from '../lib/admin/whatsapp'
 
 export const Route = createFileRoute('/_authenticated/admin')({
@@ -51,10 +53,15 @@ function Dashboard() {
         </div>
         <div className="rounded border p-4" style={{ borderColor: 'rgba(11,30,46,0.12)', borderRadius: 4 }}>
           <p className="caption-brand text-steel">Saldo do mês</p>
-          <p className="h3-brand mt-1" style={{ color: net >= 0 ? '#1a7f4b' : '#c0392b' }}>
+          <p className="h3-brand mt-1" style={{ color: net >= 0 ? '#0ca30c' : '#d03b3b' }}>
             {currency(net)}
           </p>
         </div>
+      </div>
+
+      <h2 className="h3-brand mt-10 text-ink">Entradas e saídas por mês</h2>
+      <div className="mt-4 rounded border p-4" style={{ borderColor: 'rgba(11,30,46,0.12)', borderRadius: 4 }}>
+        <MonthlyChart points={monthlySeries(transactions)} />
       </div>
 
       <h2 className="h3-brand mt-10 text-ink">Assinaturas por vencimento</h2>
