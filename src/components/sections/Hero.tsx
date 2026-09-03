@@ -12,9 +12,8 @@ export default function Hero() {
           className="body-brand hero-rise measure mt-5"
           style={{ color: 'rgba(245,247,249,0.78)', animationDelay: '45ms' }}
         >
-          A Gomes Tech projeta e desenvolve sistemas, plataformas SaaS e
-          automações sob medida para empresas que precisam de tecnologia que
-          resolve — não que complica.
+          Software sob medida e produtos prontos pra quem precisa de
+          tecnologia que resolve — não que complica.
         </p>
 
         <div

@@ -4,9 +4,9 @@ import Header from '../components/Header'
 
 import appCss from '../styles.css?url'
 
-const SITE_TITLE = 'Gomes Tech — Software para empresas de Anápolis e região'
+const SITE_TITLE = 'Gomes Tech — Sistemas e produtos sob medida'
 const SITE_DESCRIPTION =
-  'Sistemas sob medida e produtos prontos para empresas de Anápolis e região, feitos por quem visita a operação antes de programar.'
+  'Software sob medida e produtos prontos pra quem precisa de tecnologia que resolve — não que complica.'
 
 export const Route = createRootRoute({
   head: () => ({
