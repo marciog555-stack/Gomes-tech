@@ -1,8 +1,7 @@
 import { waLink } from '../../lib/whatsapp'
 import { ImagePending } from '../Pending'
 
-function ProductRow({
-  reversed,
+function ProductText({
   eyebrow,
   name,
   slogan,
@@ -11,8 +10,61 @@ function ProductRow({
   href,
   hrefLabel,
   whatsappSuffix,
-  screenshotLabel,
 }: {
+  eyebrow: string
+  name: string
+  slogan: string
+  description: string
+  bullets: Array<string>
+  href: string
+  hrefLabel: string
+  whatsappSuffix: string
+}) {
+  return (
+    <>
+      <p className="caption-brand text-steel">{eyebrow}</p>
+      <h3 className="h3-brand mt-2 text-ink">{name}</h3>
+      <p className="body-brand mt-2 text-navy-700" style={{ fontWeight: 600 }}>
+        {slogan}
+      </p>
+      <p className="body-brand measure mt-4 text-ink">{description}</p>
+
+      <ul className="body-brand mt-5 space-y-2">
+        {bullets.map((b) => (
+          <li key={b} className="flex gap-2.5">
+            <span
+              className="mt-[11px] h-[2px] w-3 shrink-0"
+              style={{ background: 'var(--navy-700)' }}
+            />
+            <span>{b}</span>
+          </li>
+        ))}
+      </ul>
+
+      <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3">
+        <a
+          href={waLink(whatsappSuffix)}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn-brand btn-brand-primary btn-brand-sm"
+        >
+          Falar no WhatsApp
+        </a>
+        <a
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="link-brand body-brand inline-block text-cyan-500"
+          style={{ fontWeight: 700 }}
+        >
+          {hrefLabel}
+        </a>
+      </div>
+    </>
+  )
+}
+
+function ProductRow(props: {
   reversed?: boolean
   eyebrow: string
   name: string
@@ -23,53 +75,31 @@ function ProductRow({
   hrefLabel: string
   whatsappSuffix: string
   screenshotLabel: string
+  /** once a real screenshot is ready, pass its path here to bring back the full-bleed image layout */
+  screenshotSrc?: string
 }) {
+  if (!props.screenshotSrc) {
+    return (
+      <div className="band-content">
+        <ProductText {...props} />
+      </div>
+    )
+  }
+
   return (
     <div className="bleed-shell">
-      <div className={`bleed-grid ${reversed ? 'is-reversed' : ''}`}>
+      <div className={`bleed-grid ${props.reversed ? 'is-reversed' : ''}`}>
         <div className="bleed-text">
-          <p className="caption-brand text-steel">{eyebrow}</p>
-          <h3 className="h3-brand mt-2 text-ink">{name}</h3>
-          <p className="body-brand mt-2 text-navy-700" style={{ fontWeight: 600 }}>
-            {slogan}
-          </p>
-          <p className="body-brand measure mt-4 text-ink">{description}</p>
-
-          <ul className="body-brand mt-5 space-y-2">
-            {bullets.map((b) => (
-              <li key={b} className="flex gap-2.5">
-                <span
-                  className="mt-[11px] h-[2px] w-3 shrink-0"
-                  style={{ background: 'var(--navy-700)' }}
-                />
-                <span>{b}</span>
-              </li>
-            ))}
-          </ul>
-
-          <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3">
-            <a
-              href={waLink(whatsappSuffix)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-brand btn-brand-primary btn-brand-sm"
-            >
-              Falar no WhatsApp
-            </a>
-            <a
-              href={href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="link-brand body-brand inline-block text-cyan-500"
-              style={{ fontWeight: 700 }}
-            >
-              {hrefLabel}
-            </a>
-          </div>
+          <ProductText {...props} />
         </div>
 
         <div className="bleed-image">
-          <ImagePending label={screenshotLabel} width={390} height={844} />
+          <ImagePending
+            label={props.screenshotLabel}
+            width={390}
+            height={844}
+            src={props.screenshotSrc}
+          />
         </div>
       </div>
     </div>
