@@ -6,16 +6,16 @@ export default function Hero() {
     <section id="topo" className="band band-navy">
       <div className="band-content">
         <h1 className="h1-brand hero-rise measure text-paper">
-          Sistemas feitos para o jeito que a sua empresa já trabalha
+          Transformamos problemas reais em soluções digitais que funcionam.
         </h1>
 
         <p
           className="body-brand hero-rise measure mt-5"
           style={{ color: 'rgba(245,247,249,0.78)', animationDelay: '45ms' }}
         >
-          Software sob medida e produtos prontos para empresas de Anápolis e
-          região. Feito por quem visita a operação antes de escrever a
-          primeira linha de código.
+          A Gomes Tech projeta e desenvolve sistemas, plataformas SaaS e
+          automações sob medida para empresas que precisam de tecnologia que
+          resolve — não que complica.
         </p>
 
         <div
