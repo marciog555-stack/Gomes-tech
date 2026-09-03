@@ -32,11 +32,6 @@ export default function Hero() {
             Ver os produtos
           </a>
         </div>
-
-        <div
-          className="hero-rise filete mt-10 w-16"
-          style={{ animationDelay: '135ms' }}
-        />
       </div>
     </section>
   )

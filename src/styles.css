@@ -206,11 +206,6 @@ a {
   color: var(--cyan-500);
 }
 
-.filete {
-  height: 2px;
-  background: var(--cyan-500);
-}
-
 .rule-navy {
   border-color: color-mix(in oklab, var(--paper) 14%, transparent);
 }
