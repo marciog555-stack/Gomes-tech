@@ -29,8 +29,17 @@ function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-paper px-5">
-      <form onSubmit={handleSubmit} className="w-full" style={{ maxWidth: 360 }}>
+    <div className="admin-ui flex min-h-screen items-center justify-center px-5" style={{ background: '#eef2f6' }}>
+      <form
+        onSubmit={handleSubmit}
+        className="w-full p-8"
+        style={{
+          maxWidth: 380,
+          background: '#fff',
+          borderRadius: 20,
+          boxShadow: '0 12px 40px rgba(11,30,46,0.12)',
+        }}
+      >
         <h1 className="h2-brand text-ink">Painel Gomes Tech</h1>
         <p className="body-brand mt-2 text-steel">Área restrita.</p>
 
@@ -43,8 +52,8 @@ function LoginPage() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           autoFocus
-          className="body-brand mt-2 w-full rounded border px-3 py-2.5"
-          style={{ borderColor: 'rgba(11,30,46,0.18)', borderRadius: 4 }}
+          className="body-brand mt-2 w-full border px-3 py-2.5"
+          style={{ borderColor: 'rgba(11,30,46,0.14)' }}
         />
 
         {error && (

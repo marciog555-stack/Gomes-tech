@@ -9,6 +9,7 @@ import {
   listProjects,
   updateProject,
 } from '../lib/admin/projects.functions'
+import { ADMIN_CARD, ADMIN_INPUT } from '../lib/admin/ui'
 
 export const Route = createFileRoute('/_authenticated/admin_/projetos')({
   loader: () => listProjects(),
@@ -104,7 +105,7 @@ function ProjectForm({
           value={form.name}
           onChange={(e) => setForm({ ...form, name: e.target.value })}
           className="body-brand mt-1 w-full border px-3 py-2"
-          style={{ borderColor: 'rgba(11,30,46,0.18)', borderRadius: 4 }}
+          style={ADMIN_INPUT}
         />
       </div>
       <div>
@@ -113,7 +114,7 @@ function ProjectForm({
           value={form.client_name}
           onChange={(e) => setForm({ ...form, client_name: e.target.value })}
           className="body-brand mt-1 w-full border px-3 py-2"
-          style={{ borderColor: 'rgba(11,30,46,0.18)', borderRadius: 4 }}
+          style={ADMIN_INPUT}
         />
       </div>
       <div>
@@ -123,7 +124,7 @@ function ProjectForm({
           value={form.deadline}
           onChange={(e) => setForm({ ...form, deadline: e.target.value })}
           className="body-brand mt-1 w-full border px-3 py-2"
-          style={{ borderColor: 'rgba(11,30,46,0.18)', borderRadius: 4 }}
+          style={ADMIN_INPUT}
         />
       </div>
       <div>
@@ -132,7 +133,7 @@ function ProjectForm({
           value={form.status}
           onChange={(e) => setForm({ ...form, status: e.target.value as ProjectStatus })}
           className="body-brand mt-1 w-full border px-3 py-2"
-          style={{ borderColor: 'rgba(11,30,46,0.18)', borderRadius: 4 }}
+          style={ADMIN_INPUT}
         >
           <option value="fila">Na fila</option>
           <option value="andamento">Em andamento</option>
@@ -145,7 +146,7 @@ function ProjectForm({
           value={form.notes}
           onChange={(e) => setForm({ ...form, notes: e.target.value })}
           className="body-brand mt-1 w-full border px-3 py-2"
-          style={{ borderColor: 'rgba(11,30,46,0.18)', borderRadius: 4 }}
+          style={ADMIN_INPUT}
         />
       </div>
 
@@ -195,16 +196,16 @@ function ProjetosPage() {
       <p className="body-brand mt-2 text-steel">Fila de entrega, ordenada por prazo.</p>
 
       {showNew && (
-        <div className="mt-4 border-t pt-4" style={{ borderColor: 'rgba(11,30,46,0.1)' }}>
+        <div className="mt-4 p-5" style={ADMIN_CARD}>
           <ProjectForm onCancel={() => setShowNew(false)} onSaved={() => setShowNew(false)} />
         </div>
       )}
 
-      <div className="mt-8 space-y-4">
+      <div className="mt-8 space-y-3">
         {projects.map((p) => {
           if (editingId === p.id) {
             return (
-              <div key={p.id} className="border-t pt-4" style={{ borderColor: 'rgba(11,30,46,0.1)' }}>
+              <div key={p.id} className="p-5" style={ADMIN_CARD}>
                 <ProjectForm initial={p} onCancel={() => setEditingId(null)} onSaved={() => setEditingId(null)} />
               </div>
             )
@@ -213,8 +214,8 @@ function ProjetosPage() {
           return (
             <div
               key={p.id}
-              className="flex flex-wrap items-center justify-between gap-3 border-t pt-4"
-              style={{ borderColor: 'rgba(11,30,46,0.1)' }}
+              className="flex flex-wrap items-center justify-between gap-3 p-4"
+              style={ADMIN_CARD}
             >
               <div>
                 <p className="body-brand text-ink" style={{ fontWeight: 600 }}>

@@ -37,7 +37,9 @@ function niceMax(value: number) {
 
 export default function MonthlyChart({ points }: { points: Array<MonthPoint> }) {
   const [hoverIndex, setHoverIndex] = useState<number | null>(null)
-  const gradientId = useId()
+  const clipId = useId()
+  const incomeGradientId = useId()
+  const expenseGradientId = useId()
 
   const plotW = WIDTH - PAD_LEFT - PAD_RIGHT
   const plotH = HEIGHT - PAD_TOP - PAD_BOTTOM
@@ -55,6 +57,12 @@ export default function MonthlyChart({ points }: { points: Array<MonthPoint> }) 
 
   function pathFor(key: 'income' | 'expense') {
     return points.map((p, i) => `${i === 0 ? 'M' : 'L'} ${x(i)} ${y(p[key])}`).join(' ')
+  }
+
+  function areaPathFor(key: 'income' | 'expense') {
+    const line = pathFor(key)
+    const baseline = PAD_TOP + plotH
+    return `${line} L ${x(points.length - 1)} ${baseline} L ${x(0)} ${baseline} Z`
   }
 
   const yTicks = [0, 0.25, 0.5, 0.75, 1].map((f) => Math.round(maxValue * f))
@@ -108,9 +116,17 @@ export default function MonthlyChart({ points }: { points: Array<MonthPoint> }) 
       <div className="relative mt-3" style={{ width: '100%' }}>
         <svg viewBox={`0 0 ${WIDTH} ${HEIGHT}`} style={{ width: '100%', height: 'auto', display: 'block' }} role="img" aria-label="Gráfico de entradas e saídas por mês">
           <defs>
-            <clipPath id={gradientId}>
+            <clipPath id={clipId}>
               <rect x={PAD_LEFT} y={PAD_TOP} width={plotW} height={plotH} />
             </clipPath>
+            <linearGradient id={incomeGradientId} x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor={INCOME_COLOR} stopOpacity="0.18" />
+              <stop offset="100%" stopColor={INCOME_COLOR} stopOpacity="0" />
+            </linearGradient>
+            <linearGradient id={expenseGradientId} x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor={EXPENSE_COLOR} stopOpacity="0.16" />
+              <stop offset="100%" stopColor={EXPENSE_COLOR} stopOpacity="0" />
+            </linearGradient>
           </defs>
 
           {yTicks.map((tick) => (
@@ -129,7 +145,9 @@ export default function MonthlyChart({ points }: { points: Array<MonthPoint> }) 
             </text>
           ))}
 
-          <g clipPath={`url(#${gradientId})`}>
+          <g clipPath={`url(#${clipId})`}>
+            <path d={areaPathFor('expense')} fill={`url(#${expenseGradientId})`} stroke="none" />
+            <path d={areaPathFor('income')} fill={`url(#${incomeGradientId})`} stroke="none" />
             <path d={pathFor('expense')} fill="none" stroke={EXPENSE_COLOR} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" strokeDasharray="6 4" />
             <path d={pathFor('income')} fill="none" stroke={INCOME_COLOR} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
           </g>
@@ -171,9 +189,9 @@ export default function MonthlyChart({ points }: { points: Array<MonthPoint> }) 
               top: 4,
               [tooltipLeft ? 'right' : 'left']: `${(x(hoverIndex!) / WIDTH) * 100}%`,
               transform: tooltipLeft ? 'translateX(0)' : 'translateX(-8px)',
-              borderColor: 'rgba(11,30,46,0.15)',
-              borderRadius: 4,
-              boxShadow: '0 4px 16px rgba(11,30,46,0.12)',
+              borderColor: 'rgba(11,30,46,0.1)',
+              borderRadius: 12,
+              boxShadow: '0 8px 24px rgba(11,30,46,0.14)',
             }}
           >
             <p className="caption-brand text-steel" style={{ fontWeight: 700 }}>

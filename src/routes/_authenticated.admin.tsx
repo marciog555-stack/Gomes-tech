@@ -8,6 +8,7 @@ import { listProjects } from '../lib/admin/projects.functions'
 import { daysUntil, dueLabel, nextDueDate } from '../lib/admin/due'
 import { monthlySeries } from '../lib/admin/monthly-series'
 import { chargeWaLink } from '../lib/admin/whatsapp'
+import { ADMIN_CARD, ADMIN_CARD_DARK } from '../lib/admin/ui'
 
 export const Route = createFileRoute('/_authenticated/admin')({
   loader: async () => {
@@ -26,8 +27,6 @@ function currency(n: number) {
   return n.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
 }
 
-const CARD = { borderColor: 'rgba(11,30,46,0.12)', borderRadius: 4 } as const
-
 function StatCard({
   label,
   value,
@@ -44,18 +43,18 @@ function StatCard({
   href?: string
 }) {
   const inner = (
-    <div className="flex items-end justify-between gap-3 border p-4" style={CARD}>
+    <div className="flex items-end justify-between gap-3 p-5" style={ADMIN_CARD}>
       <div>
         <p className="caption-brand text-steel">{label}</p>
         <p className="h3-brand mt-1" style={{ color: valueColor ?? 'var(--ink)' }}>
           {value}
         </p>
       </div>
-      {spark && spark.length >= 2 && <Sparkline values={spark} color={sparkColor ?? '#6d8296'} />}
+      {spark && spark.length >= 2 && <Sparkline values={spark} color={sparkColor ?? '#6d8296'} area />}
     </div>
   )
   return href ? (
-    <Link to={href} className="block">
+    <Link to={href} className="block transition-transform" style={{ transitionDuration: '140ms' }}>
       {inner}
     </Link>
   ) : (
@@ -126,7 +125,7 @@ function Dashboard() {
         />
         <StatCard label="Futuros clientes" value={leads.length} href="/admin/leads" />
         <StatCard label="Projetos na fila" value={projects.filter((p) => p.status !== 'entregue').length} href="/admin/projetos" />
-        <div className="border p-4" style={{ ...CARD, background: 'var(--navy-900)', borderColor: 'var(--navy-900)' }}>
+        <div className="p-5" style={ADMIN_CARD_DARK}>
           <p className="caption-brand" style={{ color: 'rgba(245,247,249,0.65)' }}>
             Próximo na fila
           </p>
@@ -148,7 +147,7 @@ function Dashboard() {
       </div>
 
       <h2 className="h3-brand mt-10 text-ink">Entradas e saídas por mês</h2>
-      <div className="mt-4 border p-4" style={CARD}>
+      <div className="mt-4 p-5" style={ADMIN_CARD}>
         <MonthlyChart points={series} />
       </div>
 
@@ -161,8 +160,11 @@ function Dashboard() {
           {activeClients.map((c) => (
             <div
               key={c.id}
-              className="flex flex-wrap items-center justify-between gap-3 border-l-2 py-2 pl-3"
-              style={{ borderColor: c.days <= 2 ? '#d03b3b' : 'var(--cyan-500)' }}
+              className="flex flex-wrap items-center justify-between gap-3 p-4"
+              style={{
+                ...ADMIN_CARD,
+                borderLeft: `4px solid ${c.days <= 2 ? '#d03b3b' : 'var(--cyan-500)'}`,
+              }}
             >
               <div>
                 <p className="body-brand text-ink" style={{ fontWeight: 600 }}>

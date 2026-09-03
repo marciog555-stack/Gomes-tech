@@ -302,3 +302,25 @@ button:focus-visible {
   outline: 2px solid var(--cyan-500);
   outline-offset: 2px;
 }
+
+/* Admin panel: softer, rounder UI language than the public site.
+   Scoped so the marketing site's flat/sharp design system is untouched. */
+.admin-ui .btn-brand {
+  border-radius: 12px;
+}
+.admin-ui input,
+.admin-ui select {
+  border-radius: 10px !important;
+}
+.admin-ui .admin-nav-link {
+  border-radius: 999px;
+  padding: 6px 14px;
+  transition: background-color 140ms ease;
+}
+.admin-ui .admin-nav-link.is-active {
+  background: rgba(34, 162, 220, 0.14);
+  color: var(--navy-900);
+}
+.admin-ui .admin-nav-link:hover {
+  background: rgba(11, 30, 46, 0.05);
+}

@@ -8,6 +8,7 @@ import {
   listClients,
   updateClient,
 } from '../lib/admin/clients.functions'
+import { ADMIN_CARD, ADMIN_INPUT } from '../lib/admin/ui'
 
 export const Route = createFileRoute('/_authenticated/admin_/clientes')({
   loader: () => listClients(),
@@ -95,7 +96,7 @@ function ClientForm({
           value={form.name}
           onChange={(e) => setForm({ ...form, name: e.target.value })}
           className="body-brand mt-1 w-full border px-3 py-2"
-          style={{ borderColor: 'rgba(11,30,46,0.18)', borderRadius: 4 }}
+          style={ADMIN_INPUT}
         />
       </div>
       <div>
@@ -106,7 +107,7 @@ function ClientForm({
           value={form.phone}
           onChange={(e) => setForm({ ...form, phone: e.target.value })}
           className="body-brand mt-1 w-full border px-3 py-2"
-          style={{ borderColor: 'rgba(11,30,46,0.18)', borderRadius: 4 }}
+          style={ADMIN_INPUT}
         />
       </div>
       <div>
@@ -119,7 +120,7 @@ function ClientForm({
           value={form.subscription_amount}
           onChange={(e) => setForm({ ...form, subscription_amount: e.target.value })}
           className="body-brand mt-1 w-full border px-3 py-2"
-          style={{ borderColor: 'rgba(11,30,46,0.18)', borderRadius: 4 }}
+          style={ADMIN_INPUT}
         />
       </div>
       <div>
@@ -132,7 +133,7 @@ function ClientForm({
           value={form.due_day}
           onChange={(e) => setForm({ ...form, due_day: e.target.value })}
           className="body-brand mt-1 w-full border px-3 py-2"
-          style={{ borderColor: 'rgba(11,30,46,0.18)', borderRadius: 4 }}
+          style={ADMIN_INPUT}
         />
       </div>
       <div className="sm:col-span-2">
@@ -141,7 +142,7 @@ function ClientForm({
           value={form.notes}
           onChange={(e) => setForm({ ...form, notes: e.target.value })}
           className="body-brand mt-1 w-full border px-3 py-2"
-          style={{ borderColor: 'rgba(11,30,46,0.18)', borderRadius: 4 }}
+          style={ADMIN_INPUT}
         />
       </div>
       <label className="caption-brand flex items-center gap-2 text-steel">
@@ -198,22 +199,22 @@ function ClientesPage() {
       </div>
 
       {showNew && (
-        <div className="mt-4 border-t pt-4" style={{ borderColor: 'rgba(11,30,46,0.1)' }}>
+        <div className="mt-4 p-5" style={ADMIN_CARD}>
           <ClientForm onCancel={() => setShowNew(false)} onSaved={() => setShowNew(false)} />
         </div>
       )}
 
-      <div className="mt-8 space-y-4">
+      <div className="mt-8 space-y-3">
         {clients.map((c) =>
           editingId === c.id ? (
-            <div key={c.id} className="border-t pt-4" style={{ borderColor: 'rgba(11,30,46,0.1)' }}>
+            <div key={c.id} className="p-5" style={ADMIN_CARD}>
               <ClientForm initial={c} onCancel={() => setEditingId(null)} onSaved={() => setEditingId(null)} />
             </div>
           ) : (
             <div
               key={c.id}
-              className="flex flex-wrap items-center justify-between gap-3 border-t pt-4"
-              style={{ borderColor: 'rgba(11,30,46,0.1)' }}
+              className="flex flex-wrap items-center justify-between gap-3 p-4"
+              style={ADMIN_CARD}
             >
               <div>
                 <p className="body-brand text-ink" style={{ fontWeight: 600 }}>

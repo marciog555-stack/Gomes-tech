@@ -2,6 +2,7 @@ import { createFileRoute, useRouter } from '@tanstack/react-router'
 import { useServerFn } from '@tanstack/react-start'
 import { useState } from 'react'
 import { createTransaction, deleteTransaction, listTransactions } from '../lib/admin/transactions.functions'
+import { ADMIN_CARD, ADMIN_INPUT } from '../lib/admin/ui'
 
 export const Route = createFileRoute('/_authenticated/admin_/financeiro')({
   loader: () => listTransactions(),
@@ -61,21 +62,21 @@ function FinanceiroPage() {
       <h1 className="h2-brand text-ink">Financeiro</h1>
 
       <div className="mt-6 grid gap-4 sm:grid-cols-2">
-        <div className="border p-4" style={{ borderColor: 'rgba(11,30,46,0.12)', borderRadius: 4 }}>
+        <div className="p-4" style={ADMIN_CARD}>
           <p className="caption-brand text-steel">Total de entradas (últimos lançamentos)</p>
-          <p className="h3-brand mt-1" style={{ color: '#1a7f4b' }}>
+          <p className="h3-brand mt-1" style={{ color: '#0ca30c' }}>
             {currency(totalIncome)}
           </p>
         </div>
-        <div className="border p-4" style={{ borderColor: 'rgba(11,30,46,0.12)', borderRadius: 4 }}>
+        <div className="p-4" style={ADMIN_CARD}>
           <p className="caption-brand text-steel">Total de saídas (últimos lançamentos)</p>
-          <p className="h3-brand mt-1" style={{ color: '#c0392b' }}>
+          <p className="h3-brand mt-1" style={{ color: '#d03b3b' }}>
             {currency(totalExpense)}
           </p>
         </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="mt-8 grid gap-3 border-t pt-6 sm:grid-cols-2" style={{ borderColor: 'rgba(11,30,46,0.1)' }}>
+      <form onSubmit={handleSubmit} className="mt-8 grid gap-3 p-5 sm:grid-cols-2" style={ADMIN_CARD}>
         <div className="flex gap-4 sm:col-span-2">
           <label className="caption-brand flex items-center gap-1.5 text-steel">
             <input type="radio" checked={type === 'income'} onChange={() => setType('income')} />
@@ -96,7 +97,7 @@ function FinanceiroPage() {
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
             className="body-brand mt-1 w-full border px-3 py-2"
-            style={{ borderColor: 'rgba(11,30,46,0.18)', borderRadius: 4 }}
+            style={ADMIN_INPUT}
           />
         </div>
         <div>
@@ -107,7 +108,7 @@ function FinanceiroPage() {
             value={occurredOn}
             onChange={(e) => setOccurredOn(e.target.value)}
             className="body-brand mt-1 w-full border px-3 py-2"
-            style={{ borderColor: 'rgba(11,30,46,0.18)', borderRadius: 4 }}
+            style={ADMIN_INPUT}
           />
         </div>
         <div className="sm:col-span-2">
@@ -117,7 +118,7 @@ function FinanceiroPage() {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             className="body-brand mt-1 w-full border px-3 py-2"
-            style={{ borderColor: 'rgba(11,30,46,0.18)', borderRadius: 4 }}
+            style={ADMIN_INPUT}
           />
         </div>
 
@@ -136,8 +137,8 @@ function FinanceiroPage() {
         {transactions.map((t) => (
           <div
             key={t.id}
-            className="flex flex-wrap items-center justify-between gap-3 border-t pt-3"
-            style={{ borderColor: 'rgba(11,30,46,0.1)' }}
+            className="flex flex-wrap items-center justify-between gap-3 p-4"
+            style={ADMIN_CARD}
           >
             <div>
               <p className="body-brand text-ink" style={{ fontWeight: 600 }}>
