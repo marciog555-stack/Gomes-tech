@@ -1,15 +1,22 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { Link, createFileRoute } from '@tanstack/react-router'
 import MonthlyChart from '../components/admin/MonthlyChart'
 import { listClients } from '../lib/admin/clients.functions'
 import { listTransactions } from '../lib/admin/transactions.functions'
+import { listLeads } from '../lib/admin/leads.functions'
+import { listProjects } from '../lib/admin/projects.functions'
 import { daysUntil, dueLabel, nextDueDate } from '../lib/admin/due'
 import { monthlySeries } from '../lib/admin/monthly-series'
 import { chargeWaLink } from '../lib/admin/whatsapp'
 
 export const Route = createFileRoute('/_authenticated/admin')({
   loader: async () => {
-    const [clients, transactions] = await Promise.all([listClients(), listTransactions()])
-    return { clients, transactions }
+    const [clients, transactions, leads, projects] = await Promise.all([
+      listClients(),
+      listTransactions(),
+      listLeads(),
+      listProjects(),
+    ])
+    return { clients, transactions, leads, projects }
   },
   component: Dashboard,
 })
@@ -19,7 +26,9 @@ function currency(n: number) {
 }
 
 function Dashboard() {
-  const { clients, transactions } = Route.useLoaderData()
+  const { clients, transactions, leads, projects } = Route.useLoaderData()
+  const queuedProjects = projects.filter((p) => p.status !== 'entregue')
+  const nextDeadline = queuedProjects.find((p) => p.deadline)?.deadline ?? null
 
   const now = new Date()
   const monthTx = transactions.filter((t) => {
@@ -57,6 +66,32 @@ function Dashboard() {
             {currency(net)}
           </p>
         </div>
+      </div>
+
+      <div className="mt-4 grid gap-4 sm:grid-cols-2">
+        <Link
+          to="/admin/leads"
+          className="block rounded border p-4"
+          style={{ borderColor: 'rgba(11,30,46,0.12)', borderRadius: 4 }}
+        >
+          <p className="caption-brand text-steel">Futuros clientes</p>
+          <p className="h3-brand mt-1 text-ink">{leads.length}</p>
+        </Link>
+        <Link
+          to="/admin/projetos"
+          className="block rounded border p-4"
+          style={{ borderColor: 'rgba(11,30,46,0.12)', borderRadius: 4 }}
+        >
+          <p className="caption-brand text-steel">Projetos na fila</p>
+          <p className="h3-brand mt-1 text-ink">
+            {queuedProjects.length}
+            {nextDeadline && (
+              <span className="caption-brand ml-2 text-steel" style={{ fontWeight: 600 }}>
+                próximo prazo {new Date(nextDeadline + 'T00:00:00').toLocaleDateString('pt-BR')}
+              </span>
+            )}
+          </p>
+        </Link>
       </div>
 
       <h2 className="h3-brand mt-10 text-ink">Entradas e saídas por mês</h2>

@@ -15,6 +15,8 @@ import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated.
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as AuthenticatedAdminClientesRouteImport } from './routes/_authenticated.admin_.clientes'
 import { Route as AuthenticatedAdminFinanceiroRouteImport } from './routes/_authenticated.admin_.financeiro'
+import { Route as AuthenticatedAdminLeadsRouteImport } from './routes/_authenticated.admin_.leads'
+import { Route as AuthenticatedAdminProjetosRouteImport } from './routes/_authenticated.admin_.projetos'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -47,6 +49,17 @@ const AuthenticatedAdminFinanceiroRoute =
     path: '/admin/financeiro',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
+const AuthenticatedAdminLeadsRoute = AuthenticatedAdminLeadsRouteImport.update({
+  id: '/admin_/leads',
+  path: '/admin/leads',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedAdminProjetosRoute =
+  AuthenticatedAdminProjetosRouteImport.update({
+    id: '/admin_/projetos',
+    path: '/admin/projetos',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -54,6 +67,8 @@ export interface FileRoutesByFullPath {
   '/admin/login': typeof AdminLoginRoute
   '/admin/clientes': typeof AuthenticatedAdminClientesRoute
   '/admin/financeiro': typeof AuthenticatedAdminFinanceiroRoute
+  '/admin/leads': typeof AuthenticatedAdminLeadsRoute
+  '/admin/projetos': typeof AuthenticatedAdminProjetosRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -61,6 +76,8 @@ export interface FileRoutesByTo {
   '/admin/login': typeof AdminLoginRoute
   '/admin/clientes': typeof AuthenticatedAdminClientesRoute
   '/admin/financeiro': typeof AuthenticatedAdminFinanceiroRoute
+  '/admin/leads': typeof AuthenticatedAdminLeadsRoute
+  '/admin/projetos': typeof AuthenticatedAdminProjetosRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -70,13 +87,28 @@ export interface FileRoutesById {
   '/admin/login': typeof AdminLoginRoute
   '/_authenticated/admin_/clientes': typeof AuthenticatedAdminClientesRoute
   '/_authenticated/admin_/financeiro': typeof AuthenticatedAdminFinanceiroRoute
+  '/_authenticated/admin_/leads': typeof AuthenticatedAdminLeadsRoute
+  '/_authenticated/admin_/projetos': typeof AuthenticatedAdminProjetosRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/admin' | '/admin/login' | '/admin/clientes' | '/admin/financeiro'
+    | '/'
+    | '/admin'
+    | '/admin/login'
+    | '/admin/clientes'
+    | '/admin/financeiro'
+    | '/admin/leads'
+    | '/admin/projetos'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/admin' | '/admin/login' | '/admin/clientes' | '/admin/financeiro'
+  to:
+    | '/'
+    | '/admin'
+    | '/admin/login'
+    | '/admin/clientes'
+    | '/admin/financeiro'
+    | '/admin/leads'
+    | '/admin/projetos'
   id:
     | '__root__'
     | '/'
@@ -85,6 +117,8 @@ export interface FileRouteTypes {
     | '/admin/login'
     | '/_authenticated/admin_/clientes'
     | '/_authenticated/admin_/financeiro'
+    | '/_authenticated/admin_/leads'
+    | '/_authenticated/admin_/projetos'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -137,6 +171,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminFinanceiroRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/admin_/leads': {
+      id: '/_authenticated/admin_/leads'
+      path: '/admin/leads'
+      fullPath: '/admin/leads'
+      preLoaderRoute: typeof AuthenticatedAdminLeadsRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/admin_/projetos': {
+      id: '/_authenticated/admin_/projetos'
+      path: '/admin/projetos'
+      fullPath: '/admin/projetos'
+      preLoaderRoute: typeof AuthenticatedAdminProjetosRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
   }
 }
 
@@ -144,12 +192,16 @@ interface AuthenticatedRouteChildren {
   AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
   AuthenticatedAdminClientesRoute: typeof AuthenticatedAdminClientesRoute
   AuthenticatedAdminFinanceiroRoute: typeof AuthenticatedAdminFinanceiroRoute
+  AuthenticatedAdminLeadsRoute: typeof AuthenticatedAdminLeadsRoute
+  AuthenticatedAdminProjetosRoute: typeof AuthenticatedAdminProjetosRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedAdminRoute: AuthenticatedAdminRoute,
   AuthenticatedAdminClientesRoute: AuthenticatedAdminClientesRoute,
   AuthenticatedAdminFinanceiroRoute: AuthenticatedAdminFinanceiroRoute,
+  AuthenticatedAdminLeadsRoute: AuthenticatedAdminLeadsRoute,
+  AuthenticatedAdminProjetosRoute: AuthenticatedAdminProjetosRoute,
 }
 
 const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
