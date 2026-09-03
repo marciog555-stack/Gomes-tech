@@ -1,5 +1,4 @@
 import { waLink } from '../lib/whatsapp'
-import { TextPending } from './Pending'
 
 export default function Footer() {
   return (
@@ -28,9 +27,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <p className="caption-brand mt-8 text-steel">
-          Gomes Tech · CNPJ <TextPending>00.000.000/0001-00</TextPending>
-        </p>
+        <p className="caption-brand mt-8 text-steel">Gomes Tech</p>
       </div>
     </footer>
   )

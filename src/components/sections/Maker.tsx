@@ -1,5 +1,3 @@
-import { TextPending } from '../Pending'
-
 export default function Maker() {
   return (
     <section id="quem-faz" className="band band-navy">
@@ -9,7 +7,7 @@ export default function Maker() {
         <div className="mt-10 md:mt-14">
           <p className="h3-brand text-paper">Márcio Gomes da Silva</p>
           <p className="body-brand mt-1" style={{ color: 'rgba(245,247,249,0.7)' }}>
-            <TextPending tone="dark">Cidade</TextPending>
+            Anápolis, GO
           </p>
           <p
             className="body-brand measure mt-4"
