@@ -128,7 +128,7 @@ export default function Products() {
           href="https://epivision.com.br/"
           hrefLabel="epivision.com.br"
           whatsappSuffix="EPI Vision"
-          screenshotLabel="Screenshot real — tela de assinatura no EPI Vision"
+          screenshotLabel="Screenshot real: tela de assinatura no EPI Vision"
         />
 
         <ProductRow
@@ -146,14 +146,14 @@ export default function Products() {
           href="https://www.xn--meucardpiogo-ibb.com.br/"
           hrefLabel="meucardapiogo.com.br"
           whatsappSuffix="MeuCardápio"
-          screenshotLabel="Screenshot real — pedido no MeuCardápio"
+          screenshotLabel="Screenshot real: pedido no MeuCardápio"
         />
 
         <ProductRow
           eyebrow="Site institucional · Indústria"
           name="Casarinotech"
           slogan="Agilidade, segurança e qualidade que o seu negócio merece"
-          description="Site para uma empresa de manutenção e montagem industrial em Goiás: apresenta os serviços (manutenção preventiva, preditiva e corretiva, montagem de equipamentos, consultoria técnica, caldeiraria) e traz prova real de operação — mais de 150 projetos entregues em 3+ anos de atuação."
+          description="Site para uma empresa de manutenção e montagem industrial em Goiás: apresenta os serviços (manutenção preventiva, preditiva e corretiva, montagem de equipamentos, consultoria técnica, caldeiraria) e traz prova real de operação, com mais de 150 projetos entregues em 3+ anos de atuação."
           bullets={[
             'Manutenção industrial, montagem e consultoria técnica',
             'Caldeiraria e recuperação de tanques',
@@ -163,7 +163,7 @@ export default function Products() {
           href="https://www.casarinotech.com.br/"
           hrefLabel="casarinotech.com.br"
           whatsappSuffix="Casarinotech"
-          screenshotLabel="Screenshot real — site da Casarinotech"
+          screenshotLabel="Screenshot real: site da Casarinotech"
         />
       </div>
     </section>

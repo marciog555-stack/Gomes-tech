@@ -13,7 +13,7 @@ export default function Hero() {
           style={{ color: 'rgba(245,247,249,0.78)', animationDelay: '45ms' }}
         >
           Software sob medida e produtos prontos pra quem precisa de
-          tecnologia que resolve — não que complica.
+          tecnologia que resolve. Não que complica.
         </p>
 
         <div
