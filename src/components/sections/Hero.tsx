@@ -30,13 +30,8 @@ export default function Hero() {
           >
             Falar no WhatsApp
           </a>
-          <a
-            href="https://epivision.com.br/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="link-brand text-cyan-300"
-          >
-            Ver o EPI Vision
+          <a href="#produtos" className="link-brand text-cyan-300">
+            Ver os produtos
           </a>
         </div>
 
