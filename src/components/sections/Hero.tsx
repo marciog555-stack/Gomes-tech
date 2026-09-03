@@ -1,5 +1,4 @@
 import { waLink } from '../../lib/whatsapp'
-import { TextPending } from '../Pending'
 
 export default function Hero() {
   return (
@@ -39,14 +38,6 @@ export default function Hero() {
           className="hero-rise filete mt-10 w-16"
           style={{ animationDelay: '135ms' }}
         />
-
-        <p
-          className="hero-rise caption-brand mt-4"
-          style={{ color: 'rgba(245,247,249,0.6)', animationDelay: '135ms' }}
-        >
-          Produtos em operação com clientes pagantes desde{' '}
-          <TextPending tone="dark">ano</TextPending>.
-        </p>
       </div>
     </section>
   )
