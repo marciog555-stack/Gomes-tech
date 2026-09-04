@@ -11,6 +11,7 @@ import {
   updateProject,
 } from '../lib/admin/projects.functions'
 import { ADMIN_CARD, ADMIN_INPUT, adminIconBadge } from '../lib/admin/ui'
+import EmptyState from '../components/admin/EmptyState'
 
 const STATUS_COLOR: Record<ProjectStatus, string> = {
   fila: '#6d8296',
@@ -260,7 +261,14 @@ function ProjetosPage() {
             </div>
           )
         })}
-        {projects.length === 0 && !showNew && <p className="body-brand text-steel">Nenhum projeto na fila ainda.</p>}
+        {projects.length === 0 && !showNew && (
+          <EmptyState
+            icon={ListChecks}
+            iconColor="#0b1e2e"
+            title="Nenhum projeto na fila"
+            description="Adicione um projeto pra acompanhar prazo de entrega e status."
+          />
+        )}
       </div>
     </div>
   )

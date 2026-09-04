@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { Pencil, Phone, Trash2, UserPlus } from 'lucide-react'
 import { type Lead, createLead, deleteLead, listLeads, updateLead } from '../lib/admin/leads.functions'
 import { ADMIN_CARD, ADMIN_INPUT, adminAvatar } from '../lib/admin/ui'
+import EmptyState from '../components/admin/EmptyState'
 
 function initials(name: string) {
   const parts = name.trim().split(/\s+/)
@@ -181,7 +182,14 @@ function LeadsPage() {
             </div>
           ),
         )}
-        {leads.length === 0 && !showNew && <p className="body-brand text-steel">Nenhum lead cadastrado ainda.</p>}
+        {leads.length === 0 && !showNew && (
+          <EmptyState
+            icon={UserPlus}
+            iconColor="#eda100"
+            title="Nenhum futuro cliente ainda"
+            description="Anote aqui quem está em conversa, antes de fechar negócio."
+          />
+        )}
       </div>
     </div>
   )

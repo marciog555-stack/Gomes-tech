@@ -59,7 +59,9 @@ export default function AdminChrome({ children }: { children: React.ReactNode })
         </div>
       </header>
 
-      <main className="band-content pb-10 pt-2">{children}</main>
+      <main id="main-content" className="band-content pb-10 pt-2">
+        {children}
+      </main>
     </div>
   )
 }

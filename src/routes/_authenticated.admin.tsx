@@ -2,6 +2,7 @@ import { Link, createFileRoute } from '@tanstack/react-router'
 import { BarChart3, CalendarClock, ListChecks, Sparkles, TrendingDown, TrendingUp, UserPlus, Wallet } from 'lucide-react'
 import MonthlyChart from '../components/admin/MonthlyChart'
 import Sparkline from '../components/admin/Sparkline'
+import EmptyState from '../components/admin/EmptyState'
 import { listClients } from '../lib/admin/clients.functions'
 import { listTransactions } from '../lib/admin/transactions.functions'
 import { listLeads } from '../lib/admin/leads.functions'
@@ -61,7 +62,7 @@ function StatCard({
         {spark && spark.length >= 2 && <Sparkline values={spark} color={sparkColor ?? '#6d8296'} area />}
       </div>
       <p className="caption-brand mt-3 text-steel">{label}</p>
-      <p className="h3-brand mt-0.5" style={{ color: valueColor ?? 'var(--ink)' }}>
+      <p className="h3-brand tabular-nums mt-0.5" style={{ color: valueColor ?? 'var(--ink)' }}>
         {value}
       </p>
     </div>
@@ -235,26 +236,35 @@ function Dashboard() {
       </h2>
 
       {activeClients.length === 0 ? (
-        <p className="body-brand mt-3 text-steel">Nenhum cliente ativo cadastrado ainda.</p>
+        <EmptyState
+          icon={UserPlus}
+          iconColor="#22a2dc"
+          title="Nenhum cliente ativo"
+          description="Cadastre um cliente em Clientes pra ver a cobrança aparecer aqui."
+        />
       ) : (
         <div className="mt-4 space-y-3">
           {activeClients.map((c) => (
-            <div
-              key={c.id}
-              className="admin-row flex flex-wrap items-center justify-between gap-3 p-4"
-              style={{
-                ...ADMIN_CARD,
-                borderLeft: `4px solid ${c.days <= 2 ? '#d03b3b' : 'var(--cyan-500)'}`,
-              }}
-            >
+            <div key={c.id} className="admin-row flex flex-wrap items-center justify-between gap-3 p-4" style={ADMIN_CARD}>
               <div className="flex items-center gap-3">
                 <div style={adminAvatar(c.days <= 2 ? '#d03b3b' : '#22a2dc')}>{initials(c.name)}</div>
                 <div>
                   <p className="body-brand text-ink" style={{ fontWeight: 600 }}>
                     {c.name}
                   </p>
-                  <p className="caption-brand text-steel">
-                    {currency(c.subscription_amount)} · {dueLabel(c.days)}
+                  <p className="caption-brand mt-0.5 flex items-center gap-2 text-steel">
+                    {currency(c.subscription_amount)}
+                    <span
+                      style={{
+                        background: c.days <= 2 ? 'rgba(208,59,59,0.1)' : 'rgba(34,162,220,0.1)',
+                        color: c.days <= 2 ? '#d03b3b' : 'var(--cyan-500)',
+                        fontWeight: 600,
+                        borderRadius: 999,
+                        padding: '2px 9px',
+                      }}
+                    >
+                      {dueLabel(c.days)}
+                    </span>
                   </p>
                 </div>
               </div>

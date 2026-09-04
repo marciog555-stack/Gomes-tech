@@ -1,4 +1,4 @@
-import { HeadContent, Scripts, createRootRoute } from '@tanstack/react-router'
+import { HeadContent, Link, Scripts, createRootRoute } from '@tanstack/react-router'
 import Footer from '../components/Footer'
 import Header from '../components/Header'
 
@@ -36,6 +36,7 @@ export const Route = createRootRoute({
     ],
   }),
   shellComponent: RootDocument,
+  notFoundComponent: NotFound,
 })
 
 function RootDocument({ children }: { children: React.ReactNode }) {
@@ -45,11 +46,27 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body className="bg-paper font-sans text-ink antialiased [overflow-wrap:anywhere]">
+        <a href="#main-content" className="skip-link caption-brand">
+          Pular para o conteúdo
+        </a>
         <Header />
         {children}
         <Footer />
         <Scripts />
       </body>
     </html>
+  )
+}
+
+function NotFound() {
+  return (
+    <main id="main-content" className="band-content flex min-h-[60vh] flex-col items-center justify-center text-center">
+      <p className="caption-brand text-steel">Erro 404</p>
+      <h1 className="h2-brand mt-2 text-ink">Essa página não existe</h1>
+      <p className="body-brand mt-2 text-steel">Confira o endereço ou volte para o início.</p>
+      <Link to="/" className="btn-brand btn-brand-primary mt-6">
+        Voltar para o início
+      </Link>
+    </main>
   )
 }

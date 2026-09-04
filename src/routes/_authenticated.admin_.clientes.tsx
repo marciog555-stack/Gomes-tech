@@ -10,6 +10,7 @@ import {
   updateClient,
 } from '../lib/admin/clients.functions'
 import { ADMIN_CARD, ADMIN_INPUT, adminAvatar } from '../lib/admin/ui'
+import EmptyState from '../components/admin/EmptyState'
 
 function initials(name: string) {
   const parts = name.trim().split(/\s+/)
@@ -253,7 +254,12 @@ function ClientesPage() {
           ),
         )}
         {clients.length === 0 && !showNew && (
-          <p className="body-brand text-steel">Nenhum cliente cadastrado ainda.</p>
+          <EmptyState
+            icon={Users}
+            iconColor="#22a2dc"
+            title="Nenhum cliente ainda"
+            description="Cadastre o primeiro cliente pra acompanhar mensalidade e vencimento."
+          />
         )}
       </div>
     </div>

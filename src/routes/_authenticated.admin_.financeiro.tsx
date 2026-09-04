@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { ArrowDownRight, ArrowUpRight, Trash2, Wallet } from 'lucide-react'
 import { createTransaction, deleteTransaction, listTransactions } from '../lib/admin/transactions.functions'
 import { ADMIN_CARD, ADMIN_INPUT, adminIconBadge } from '../lib/admin/ui'
+import EmptyState from '../components/admin/EmptyState'
 
 export const Route = createFileRoute('/_authenticated/admin_/financeiro')({
   loader: () => listTransactions(),
@@ -72,7 +73,7 @@ function FinanceiroPage() {
           </div>
           <div>
             <p className="caption-brand text-steel">Total de entradas</p>
-            <p className="h3-brand mt-0.5" style={{ color: '#0ca30c' }}>
+            <p className="h3-brand tabular-nums mt-0.5" style={{ color: '#0ca30c' }}>
               {currency(totalIncome)}
             </p>
           </div>
@@ -83,7 +84,7 @@ function FinanceiroPage() {
           </div>
           <div>
             <p className="caption-brand text-steel">Total de saídas</p>
-            <p className="h3-brand mt-0.5" style={{ color: '#d03b3b' }}>
+            <p className="h3-brand tabular-nums mt-0.5" style={{ color: '#d03b3b' }}>
               {currency(totalExpense)}
             </p>
           </div>
@@ -181,7 +182,14 @@ function FinanceiroPage() {
             </button>
           </div>
         ))}
-        {transactions.length === 0 && <p className="body-brand text-steel">Nenhum lançamento ainda.</p>}
+        {transactions.length === 0 && (
+          <EmptyState
+            icon={Wallet}
+            iconColor="#22a2dc"
+            title="Nenhum lançamento ainda"
+            description="Registre a primeira entrada ou saída pra começar o histórico."
+          />
+        )}
       </div>
     </div>
   )
