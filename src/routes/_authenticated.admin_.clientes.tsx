@@ -1,6 +1,7 @@
 import { createFileRoute, useRouter } from '@tanstack/react-router'
 import { useServerFn } from '@tanstack/react-start'
 import { useState } from 'react'
+import { Pencil, Phone, Trash2, Users } from 'lucide-react'
 import {
   type Client,
   createClient,
@@ -8,7 +9,12 @@ import {
   listClients,
   updateClient,
 } from '../lib/admin/clients.functions'
-import { ADMIN_CARD, ADMIN_INPUT } from '../lib/admin/ui'
+import { ADMIN_CARD, ADMIN_INPUT, adminAvatar } from '../lib/admin/ui'
+
+function initials(name: string) {
+  const parts = name.trim().split(/\s+/)
+  return ((parts[0]?.[0] ?? '') + (parts[1]?.[0] ?? '')).toUpperCase()
+}
 
 export const Route = createFileRoute('/_authenticated/admin_/clientes')({
   loader: () => listClients(),
@@ -190,7 +196,10 @@ function ClientesPage() {
   return (
     <div>
       <div className="flex items-center justify-between">
-        <h1 className="h2-brand text-ink">Clientes</h1>
+        <h1 className="h2-brand flex items-center gap-2 text-ink">
+          <Users size={22} style={{ color: 'var(--cyan-500)' }} />
+          Clientes
+        </h1>
         {!showNew && (
           <button onClick={() => setShowNew(true)} className="btn-brand btn-brand-primary btn-brand-sm">
             Novo cliente
@@ -216,21 +225,27 @@ function ClientesPage() {
               className="flex flex-wrap items-center justify-between gap-3 p-4"
               style={ADMIN_CARD}
             >
-              <div>
-                <p className="body-brand text-ink" style={{ fontWeight: 600 }}>
-                  {c.name} {!c.active && <span className="text-steel">(inativo)</span>}
-                </p>
-                <p className="caption-brand text-steel">
-                  {c.phone} · R$ {c.subscription_amount.toLocaleString('pt-BR', { minimumFractionDigits: 2 })} · dia{' '}
-                  {c.due_day}
-                </p>
-                {c.notes && <p className="caption-brand mt-1 text-steel">{c.notes}</p>}
+              <div className="flex items-center gap-3">
+                <div style={adminAvatar(c.active ? '#22a2dc' : '#6d8296')}>{initials(c.name)}</div>
+                <div>
+                  <p className="body-brand text-ink" style={{ fontWeight: 600 }}>
+                    {c.name} {!c.active && <span className="text-steel">(inativo)</span>}
+                  </p>
+                  <p className="caption-brand flex items-center gap-1 text-steel">
+                    <Phone size={12} />
+                    {c.phone} · R$ {c.subscription_amount.toLocaleString('pt-BR', { minimumFractionDigits: 2 })} · dia{' '}
+                    {c.due_day}
+                  </p>
+                  {c.notes && <p className="caption-brand mt-1 text-steel">{c.notes}</p>}
+                </div>
               </div>
               <div className="flex gap-4">
-                <button onClick={() => setEditingId(c.id)} className="caption-brand text-cyan-500" style={{ fontWeight: 600 }}>
+                <button onClick={() => setEditingId(c.id)} className="caption-brand flex items-center gap-1 text-cyan-500" style={{ fontWeight: 600 }}>
+                  <Pencil size={13} />
                   Editar
                 </button>
-                <button onClick={() => handleDelete(c.id)} className="caption-brand" style={{ fontWeight: 600, color: '#c0392b' }}>
+                <button onClick={() => handleDelete(c.id)} className="caption-brand flex items-center gap-1" style={{ fontWeight: 600, color: '#c0392b' }}>
+                  <Trash2 size={13} />
                   Excluir
                 </button>
               </div>

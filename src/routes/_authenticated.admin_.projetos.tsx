@@ -1,6 +1,7 @@
 import { createFileRoute, useRouter } from '@tanstack/react-router'
 import { useServerFn } from '@tanstack/react-start'
 import { useState } from 'react'
+import { CalendarClock, ListChecks, Pencil, Trash2 } from 'lucide-react'
 import {
   type Project,
   type ProjectStatus,
@@ -9,7 +10,13 @@ import {
   listProjects,
   updateProject,
 } from '../lib/admin/projects.functions'
-import { ADMIN_CARD, ADMIN_INPUT } from '../lib/admin/ui'
+import { ADMIN_CARD, ADMIN_INPUT, adminIconBadge } from '../lib/admin/ui'
+
+const STATUS_COLOR: Record<ProjectStatus, string> = {
+  fila: '#6d8296',
+  andamento: '#eda100',
+  entregue: '#0ca30c',
+}
 
 export const Route = createFileRoute('/_authenticated/admin_/projetos')({
   loader: () => listProjects(),
@@ -186,7 +193,10 @@ function ProjetosPage() {
   return (
     <div>
       <div className="flex items-center justify-between">
-        <h1 className="h2-brand text-ink">Projetos</h1>
+        <h1 className="h2-brand flex items-center gap-2 text-ink">
+          <ListChecks size={22} style={{ color: 'var(--cyan-500)' }} />
+          Projetos
+        </h1>
         {!showNew && (
           <button onClick={() => setShowNew(true)} className="btn-brand btn-brand-primary btn-brand-sm">
             Novo projeto
@@ -217,26 +227,33 @@ function ProjetosPage() {
               className="flex flex-wrap items-center justify-between gap-3 p-4"
               style={ADMIN_CARD}
             >
-              <div>
-                <p className="body-brand text-ink" style={{ fontWeight: 600 }}>
-                  {p.name} {p.client_name && <span className="text-steel">· {p.client_name}</span>}
-                </p>
-                <p className="caption-brand text-steel">
-                  {STATUS_LABEL[p.status]}
-                  {dl && (
-                    <>
-                      {' · '}
-                      <span style={{ color: dl.color, fontWeight: 600 }}>{dl.text}</span>
-                    </>
-                  )}
-                </p>
-                {p.notes && <p className="caption-brand mt-1 text-steel">{p.notes}</p>}
+              <div className="flex items-center gap-3">
+                <div style={adminIconBadge(STATUS_COLOR[p.status])}>
+                  <CalendarClock size={18} strokeWidth={2.25} />
+                </div>
+                <div>
+                  <p className="body-brand text-ink" style={{ fontWeight: 600 }}>
+                    {p.name} {p.client_name && <span className="text-steel">· {p.client_name}</span>}
+                  </p>
+                  <p className="caption-brand text-steel">
+                    {STATUS_LABEL[p.status]}
+                    {dl && (
+                      <>
+                        {' · '}
+                        <span style={{ color: dl.color, fontWeight: 600 }}>{dl.text}</span>
+                      </>
+                    )}
+                  </p>
+                  {p.notes && <p className="caption-brand mt-1 text-steel">{p.notes}</p>}
+                </div>
               </div>
               <div className="flex gap-4">
-                <button onClick={() => setEditingId(p.id)} className="caption-brand text-cyan-500" style={{ fontWeight: 600 }}>
+                <button onClick={() => setEditingId(p.id)} className="caption-brand flex items-center gap-1 text-cyan-500" style={{ fontWeight: 600 }}>
+                  <Pencil size={13} />
                   Editar
                 </button>
-                <button onClick={() => handleDelete(p.id)} className="caption-brand" style={{ fontWeight: 600, color: '#c0392b' }}>
+                <button onClick={() => handleDelete(p.id)} className="caption-brand flex items-center gap-1" style={{ fontWeight: 600, color: '#c0392b' }}>
+                  <Trash2 size={13} />
                   Excluir
                 </button>
               </div>

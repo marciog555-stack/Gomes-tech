@@ -1,8 +1,14 @@
 import { createFileRoute, useRouter } from '@tanstack/react-router'
 import { useServerFn } from '@tanstack/react-start'
 import { useState } from 'react'
+import { Pencil, Phone, Trash2, UserPlus } from 'lucide-react'
 import { type Lead, createLead, deleteLead, listLeads, updateLead } from '../lib/admin/leads.functions'
-import { ADMIN_CARD, ADMIN_INPUT } from '../lib/admin/ui'
+import { ADMIN_CARD, ADMIN_INPUT, adminAvatar } from '../lib/admin/ui'
+
+function initials(name: string) {
+  const parts = name.trim().split(/\s+/)
+  return ((parts[0]?.[0] ?? '') + (parts[1]?.[0] ?? '')).toUpperCase()
+}
 
 export const Route = createFileRoute('/_authenticated/admin_/leads')({
   loader: () => listLeads(),
@@ -117,7 +123,10 @@ function LeadsPage() {
   return (
     <div>
       <div className="flex items-center justify-between">
-        <h1 className="h2-brand text-ink">Futuros clientes</h1>
+        <h1 className="h2-brand flex items-center gap-2 text-ink">
+          <UserPlus size={22} style={{ color: 'var(--cyan-500)' }} />
+          Futuros clientes
+        </h1>
         {!showNew && (
           <button onClick={() => setShowNew(true)} className="btn-brand btn-brand-primary btn-brand-sm">
             Novo lead
@@ -144,18 +153,28 @@ function LeadsPage() {
               className="flex flex-wrap items-center justify-between gap-3 p-4"
               style={ADMIN_CARD}
             >
-              <div>
-                <p className="body-brand text-ink" style={{ fontWeight: 600 }}>
-                  {l.name}
-                </p>
-                {l.phone && <p className="caption-brand text-steel">{l.phone}</p>}
-                {l.notes && <p className="caption-brand mt-1 text-steel">{l.notes}</p>}
+              <div className="flex items-center gap-3">
+                <div style={adminAvatar('#eda100')}>{initials(l.name)}</div>
+                <div>
+                  <p className="body-brand text-ink" style={{ fontWeight: 600 }}>
+                    {l.name}
+                  </p>
+                  {l.phone && (
+                    <p className="caption-brand flex items-center gap-1 text-steel">
+                      <Phone size={12} />
+                      {l.phone}
+                    </p>
+                  )}
+                  {l.notes && <p className="caption-brand mt-1 text-steel">{l.notes}</p>}
+                </div>
               </div>
               <div className="flex gap-4">
-                <button onClick={() => setEditingId(l.id)} className="caption-brand text-cyan-500" style={{ fontWeight: 600 }}>
+                <button onClick={() => setEditingId(l.id)} className="caption-brand flex items-center gap-1 text-cyan-500" style={{ fontWeight: 600 }}>
+                  <Pencil size={13} />
                   Editar
                 </button>
-                <button onClick={() => handleDelete(l.id)} className="caption-brand" style={{ fontWeight: 600, color: '#c0392b' }}>
+                <button onClick={() => handleDelete(l.id)} className="caption-brand flex items-center gap-1" style={{ fontWeight: 600, color: '#c0392b' }}>
+                  <Trash2 size={13} />
                   Excluir
                 </button>
               </div>

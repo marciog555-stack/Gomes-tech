@@ -1,4 +1,5 @@
 import { Link, createFileRoute } from '@tanstack/react-router'
+import { BarChart3, CalendarClock, ListChecks, Sparkles, TrendingDown, TrendingUp, UserPlus, Wallet } from 'lucide-react'
 import MonthlyChart from '../components/admin/MonthlyChart'
 import Sparkline from '../components/admin/Sparkline'
 import { listClients } from '../lib/admin/clients.functions'
@@ -8,7 +9,7 @@ import { listProjects } from '../lib/admin/projects.functions'
 import { daysUntil, dueLabel, nextDueDate } from '../lib/admin/due'
 import { monthlySeries } from '../lib/admin/monthly-series'
 import { chargeWaLink } from '../lib/admin/whatsapp'
-import { ADMIN_CARD, ADMIN_CARD_DARK } from '../lib/admin/ui'
+import { ADMIN_CARD, ADMIN_CARD_DARK, adminAvatar, adminIconBadge } from '../lib/admin/ui'
 
 export const Route = createFileRoute('/_authenticated/admin')({
   loader: async () => {
@@ -27,6 +28,11 @@ function currency(n: number) {
   return n.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
 }
 
+function initials(name: string) {
+  const parts = name.trim().split(/\s+/)
+  return ((parts[0]?.[0] ?? '') + (parts[1]?.[0] ?? '')).toUpperCase()
+}
+
 function StatCard({
   label,
   value,
@@ -34,6 +40,8 @@ function StatCard({
   spark,
   sparkColor,
   href,
+  icon: Icon,
+  iconColor,
 }: {
   label: string
   value: React.ReactNode
@@ -41,16 +49,21 @@ function StatCard({
   spark?: Array<number>
   sparkColor?: string
   href?: string
+  icon: typeof TrendingUp
+  iconColor: string
 }) {
   const inner = (
-    <div className="flex items-end justify-between gap-3 p-5" style={ADMIN_CARD}>
-      <div>
-        <p className="caption-brand text-steel">{label}</p>
-        <p className="h3-brand mt-1" style={{ color: valueColor ?? 'var(--ink)' }}>
-          {value}
-        </p>
+    <div className="p-5" style={ADMIN_CARD}>
+      <div className="flex items-start justify-between gap-3">
+        <div style={adminIconBadge(iconColor)}>
+          <Icon size={19} strokeWidth={2.25} />
+        </div>
+        {spark && spark.length >= 2 && <Sparkline values={spark} color={sparkColor ?? '#6d8296'} area />}
       </div>
-      {spark && spark.length >= 2 && <Sparkline values={spark} color={sparkColor ?? '#6d8296'} area />}
+      <p className="caption-brand mt-3 text-steel">{label}</p>
+      <p className="h3-brand mt-0.5" style={{ color: valueColor ?? 'var(--ink)' }}>
+        {value}
+      </p>
     </div>
   )
   return href ? (
@@ -100,8 +113,35 @@ function Dashboard() {
 
   return (
     <div>
-      <h1 className="h2-brand text-ink">Olá, Márcio</h1>
-      <p className="body-brand mt-1 text-steel">{dateLabel}</p>
+      <div
+        className="relative overflow-hidden p-6"
+        style={{ ...ADMIN_CARD_DARK, borderRadius: 20 }}
+      >
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute"
+          style={{
+            top: -60,
+            right: -40,
+            width: 220,
+            height: 220,
+            borderRadius: '50%',
+            background: 'radial-gradient(circle, rgba(34,162,220,0.35), transparent 70%)',
+          }}
+        />
+        <div className="relative flex items-center gap-2">
+          <Sparkles size={16} style={{ color: 'var(--cyan-300)' }} />
+          <p className="caption-brand" style={{ color: 'rgba(245,247,249,0.7)' }}>
+            {dateLabel}
+          </p>
+        </div>
+        <h1 className="h2-brand relative mt-1 text-paper">Olá, Márcio</h1>
+        <p className="body-brand relative mt-1" style={{ color: 'rgba(245,247,249,0.75)' }}>
+          {nextUp
+            ? `Próximo: ${nextUp.label.toLowerCase()} de ${nextUp.name} ${nextUp.days <= 0 ? 'hoje' : `em ${nextUp.days} dia${nextUp.days === 1 ? '' : 's'}`}.`
+            : 'Nada urgente por agora.'}
+        </p>
+      </div>
 
       <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <StatCard
@@ -109,12 +149,16 @@ function Dashboard() {
           value={currency(income)}
           spark={series.map((s) => s.income)}
           sparkColor="#0ca30c"
+          icon={TrendingUp}
+          iconColor="#0ca30c"
         />
         <StatCard
           label="Saídas no mês"
           value={currency(expense)}
           spark={series.map((s) => s.expense)}
           sparkColor="#d03b3b"
+          icon={TrendingDown}
+          iconColor="#d03b3b"
         />
         <StatCard
           label="Saldo do mês"
@@ -122,16 +166,47 @@ function Dashboard() {
           valueColor={net >= 0 ? '#0ca30c' : '#d03b3b'}
           spark={series.map((s) => s.income - s.expense)}
           sparkColor={net >= 0 ? '#0ca30c' : '#d03b3b'}
+          icon={Wallet}
+          iconColor={net >= 0 ? '#0ca30c' : '#d03b3b'}
         />
-        <StatCard label="Futuros clientes" value={leads.length} href="/admin/leads" />
-        <StatCard label="Projetos na fila" value={projects.filter((p) => p.status !== 'entregue').length} href="/admin/projetos" />
+        <StatCard
+          label="Futuros clientes"
+          value={leads.length}
+          href="/admin/leads"
+          icon={UserPlus}
+          iconColor="#22a2dc"
+        />
+        <StatCard
+          label="Projetos na fila"
+          value={projects.filter((p) => p.status !== 'entregue').length}
+          href="/admin/projetos"
+          icon={ListChecks}
+          iconColor="#0b1e2e"
+        />
         <div className="p-5" style={ADMIN_CARD_DARK}>
-          <p className="caption-brand" style={{ color: 'rgba(245,247,249,0.65)' }}>
+          <div className="flex items-start justify-between gap-3">
+            <div
+              style={{
+                background: 'rgba(245,247,249,0.14)',
+                color: 'var(--cyan-300)',
+                width: 40,
+                height: 40,
+                borderRadius: 12,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexShrink: 0,
+              }}
+            >
+              <CalendarClock size={19} strokeWidth={2.25} />
+            </div>
+          </div>
+          <p className="caption-brand mt-3" style={{ color: 'rgba(245,247,249,0.65)' }}>
             Próximo na fila
           </p>
           {nextUp ? (
             <>
-              <p className="h3-brand mt-1 text-paper">
+              <p className="h3-brand mt-0.5 text-paper">
                 {nextUp.days <= 0 ? 'Hoje' : `${nextUp.days} dia${nextUp.days === 1 ? '' : 's'}`}
               </p>
               <p className="caption-brand mt-0.5" style={{ color: 'rgba(245,247,249,0.8)' }}>
@@ -139,19 +214,25 @@ function Dashboard() {
               </p>
             </>
           ) : (
-            <p className="body-brand mt-1" style={{ color: 'rgba(245,247,249,0.75)' }}>
+            <p className="body-brand mt-0.5" style={{ color: 'rgba(245,247,249,0.75)' }}>
               Nada urgente agora.
             </p>
           )}
         </div>
       </div>
 
-      <h2 className="h3-brand mt-10 text-ink">Entradas e saídas por mês</h2>
+      <h2 className="h3-brand mt-10 flex items-center gap-2 text-ink">
+        <BarChart3 size={19} style={{ color: 'var(--cyan-500)' }} />
+        Entradas e saídas por mês
+      </h2>
       <div className="mt-4 p-5" style={ADMIN_CARD}>
         <MonthlyChart points={series} />
       </div>
 
-      <h2 className="h3-brand mt-10 text-ink">Assinaturas por vencimento</h2>
+      <h2 className="h3-brand mt-10 flex items-center gap-2 text-ink">
+        <CalendarClock size={19} style={{ color: 'var(--cyan-500)' }} />
+        Assinaturas por vencimento
+      </h2>
 
       {activeClients.length === 0 ? (
         <p className="body-brand mt-3 text-steel">Nenhum cliente ativo cadastrado ainda.</p>
@@ -166,13 +247,16 @@ function Dashboard() {
                 borderLeft: `4px solid ${c.days <= 2 ? '#d03b3b' : 'var(--cyan-500)'}`,
               }}
             >
-              <div>
-                <p className="body-brand text-ink" style={{ fontWeight: 600 }}>
-                  {c.name}
-                </p>
-                <p className="caption-brand text-steel">
-                  {currency(c.subscription_amount)} · {dueLabel(c.days)}
-                </p>
+              <div className="flex items-center gap-3">
+                <div style={adminAvatar(c.days <= 2 ? '#d03b3b' : '#22a2dc')}>{initials(c.name)}</div>
+                <div>
+                  <p className="body-brand text-ink" style={{ fontWeight: 600 }}>
+                    {c.name}
+                  </p>
+                  <p className="caption-brand text-steel">
+                    {currency(c.subscription_amount)} · {dueLabel(c.days)}
+                  </p>
+                </div>
               </div>
               <a
                 href={chargeWaLink(c.phone, c.name, c.subscription_amount, c.due_day)}

@@ -1,8 +1,9 @@
 import { createFileRoute, useRouter } from '@tanstack/react-router'
 import { useServerFn } from '@tanstack/react-start'
 import { useState } from 'react'
+import { ArrowDownRight, ArrowUpRight, Trash2, Wallet } from 'lucide-react'
 import { createTransaction, deleteTransaction, listTransactions } from '../lib/admin/transactions.functions'
-import { ADMIN_CARD, ADMIN_INPUT } from '../lib/admin/ui'
+import { ADMIN_CARD, ADMIN_INPUT, adminIconBadge } from '../lib/admin/ui'
 
 export const Route = createFileRoute('/_authenticated/admin_/financeiro')({
   loader: () => listTransactions(),
@@ -59,20 +60,33 @@ function FinanceiroPage() {
 
   return (
     <div>
-      <h1 className="h2-brand text-ink">Financeiro</h1>
+      <h1 className="h2-brand flex items-center gap-2 text-ink">
+        <Wallet size={22} style={{ color: 'var(--cyan-500)' }} />
+        Financeiro
+      </h1>
 
       <div className="mt-6 grid gap-4 sm:grid-cols-2">
-        <div className="p-4" style={ADMIN_CARD}>
-          <p className="caption-brand text-steel">Total de entradas (últimos lançamentos)</p>
-          <p className="h3-brand mt-1" style={{ color: '#0ca30c' }}>
-            {currency(totalIncome)}
-          </p>
+        <div className="flex items-center gap-3 p-4" style={ADMIN_CARD}>
+          <div style={adminIconBadge('#0ca30c')}>
+            <ArrowUpRight size={19} strokeWidth={2.25} />
+          </div>
+          <div>
+            <p className="caption-brand text-steel">Total de entradas</p>
+            <p className="h3-brand mt-0.5" style={{ color: '#0ca30c' }}>
+              {currency(totalIncome)}
+            </p>
+          </div>
         </div>
-        <div className="p-4" style={ADMIN_CARD}>
-          <p className="caption-brand text-steel">Total de saídas (últimos lançamentos)</p>
-          <p className="h3-brand mt-1" style={{ color: '#d03b3b' }}>
-            {currency(totalExpense)}
-          </p>
+        <div className="flex items-center gap-3 p-4" style={ADMIN_CARD}>
+          <div style={adminIconBadge('#d03b3b')}>
+            <ArrowDownRight size={19} strokeWidth={2.25} />
+          </div>
+          <div>
+            <p className="caption-brand text-steel">Total de saídas</p>
+            <p className="h3-brand mt-0.5" style={{ color: '#d03b3b' }}>
+              {currency(totalExpense)}
+            </p>
+          </div>
         </div>
       </div>
 
@@ -140,19 +154,29 @@ function FinanceiroPage() {
             className="flex flex-wrap items-center justify-between gap-3 p-4"
             style={ADMIN_CARD}
           >
-            <div>
-              <p className="body-brand text-ink" style={{ fontWeight: 600 }}>
-                {t.description}
-              </p>
-              <p className="caption-brand text-steel">
-                {new Date(t.occurred_on + 'T00:00:00').toLocaleDateString('pt-BR')} ·{' '}
-                <span style={{ color: t.type === 'income' ? '#1a7f4b' : '#c0392b' }}>
-                  {t.type === 'income' ? '+ ' : '- '}
-                  {currency(t.amount)}
-                </span>
-              </p>
+            <div className="flex items-center gap-3">
+              <div style={adminIconBadge(t.type === 'income' ? '#0ca30c' : '#d03b3b')}>
+                {t.type === 'income' ? (
+                  <ArrowUpRight size={17} strokeWidth={2.25} />
+                ) : (
+                  <ArrowDownRight size={17} strokeWidth={2.25} />
+                )}
+              </div>
+              <div>
+                <p className="body-brand text-ink" style={{ fontWeight: 600 }}>
+                  {t.description}
+                </p>
+                <p className="caption-brand text-steel">
+                  {new Date(t.occurred_on + 'T00:00:00').toLocaleDateString('pt-BR')} ·{' '}
+                  <span style={{ color: t.type === 'income' ? '#1a7f4b' : '#c0392b' }}>
+                    {t.type === 'income' ? '+ ' : '- '}
+                    {currency(t.amount)}
+                  </span>
+                </p>
+              </div>
             </div>
-            <button onClick={() => handleDelete(t.id)} className="caption-brand" style={{ fontWeight: 600, color: '#c0392b' }}>
+            <button onClick={() => handleDelete(t.id)} className="caption-brand flex items-center gap-1" style={{ fontWeight: 600, color: '#c0392b' }}>
+              <Trash2 size={13} />
               Excluir
             </button>
           </div>
