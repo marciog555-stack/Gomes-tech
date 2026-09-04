@@ -67,7 +67,7 @@ function StatCard({
     </div>
   )
   return href ? (
-    <Link to={href} className="block transition-transform" style={{ transitionDuration: '140ms' }}>
+    <Link to={href} className="admin-card-hover block">
       {inner}
     </Link>
   ) : (
@@ -241,7 +241,7 @@ function Dashboard() {
           {activeClients.map((c) => (
             <div
               key={c.id}
-              className="flex flex-wrap items-center justify-between gap-3 p-4"
+              className="admin-row flex flex-wrap items-center justify-between gap-3 p-4"
               style={{
                 ...ADMIN_CARD,
                 borderLeft: `4px solid ${c.days <= 2 ? '#d03b3b' : 'var(--cyan-500)'}`,

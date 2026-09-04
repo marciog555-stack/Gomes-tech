@@ -16,6 +16,8 @@
   --band-gap-mobile: 64px;
   --band-gap-desktop: 104px;
   --content-max: 1100px;
+
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 @theme inline {
@@ -323,4 +325,46 @@ button:focus-visible {
 }
 .admin-ui .admin-nav-link:hover {
   background: rgba(11, 30, 46, 0.05);
+}
+
+/* Admin panel motion: feedback on interactive cards, rows and inline actions. */
+.admin-ui .admin-card-hover {
+  transition:
+    transform 160ms var(--ease-out),
+    box-shadow 160ms var(--ease-out);
+}
+.admin-ui .admin-row {
+  transition:
+    background-color 160ms ease,
+    box-shadow 160ms var(--ease-out);
+}
+.admin-ui .admin-action-link {
+  display: inline-flex;
+  transition:
+    color 140ms ease,
+    transform 140ms var(--ease-out);
+}
+.admin-ui .admin-action-link:active {
+  transform: scale(0.94);
+}
+@media (hover: hover) and (pointer: fine) {
+  .admin-ui .admin-card-hover:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 30px rgba(11, 30, 46, 0.14);
+  }
+  .admin-ui .admin-row:hover {
+    background: #fbfcfd;
+    box-shadow: 0 8px 20px rgba(11, 30, 46, 0.08);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .admin-ui .admin-card-hover,
+  .admin-ui .admin-row,
+  .admin-ui .admin-action-link {
+    transition-duration: 0.01ms !important;
+  }
+  .admin-ui .admin-card-hover:hover,
+  .admin-ui .admin-action-link:active {
+    transform: none !important;
+  }
 }

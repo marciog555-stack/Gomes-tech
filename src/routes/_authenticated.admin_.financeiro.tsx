@@ -151,7 +151,7 @@ function FinanceiroPage() {
         {transactions.map((t) => (
           <div
             key={t.id}
-            className="flex flex-wrap items-center justify-between gap-3 p-4"
+            className="admin-row flex flex-wrap items-center justify-between gap-3 p-4"
             style={ADMIN_CARD}
           >
             <div className="flex items-center gap-3">
@@ -175,7 +175,7 @@ function FinanceiroPage() {
                 </p>
               </div>
             </div>
-            <button onClick={() => handleDelete(t.id)} className="caption-brand flex items-center gap-1" style={{ fontWeight: 600, color: '#c0392b' }}>
+            <button onClick={() => handleDelete(t.id)} className="admin-action-link caption-brand items-center gap-1" style={{ fontWeight: 600, color: '#c0392b' }}>
               <Trash2 size={13} />
               Excluir
             </button>

@@ -50,7 +50,7 @@ export default function AdminChrome({ children }: { children: React.ReactNode })
           </nav>
           <button
             onClick={handleLogout}
-            className="caption-brand flex items-center gap-1.5 text-steel"
+            className="admin-action-link caption-brand items-center gap-1.5 text-steel"
             style={{ fontWeight: 600, background: 'none', border: 'none', cursor: 'pointer', flexShrink: 0 }}
           >
             <LogOut size={15} strokeWidth={2.25} />

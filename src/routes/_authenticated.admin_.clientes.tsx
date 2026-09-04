@@ -222,7 +222,7 @@ function ClientesPage() {
           ) : (
             <div
               key={c.id}
-              className="flex flex-wrap items-center justify-between gap-3 p-4"
+              className="admin-row flex flex-wrap items-center justify-between gap-3 p-4"
               style={ADMIN_CARD}
             >
               <div className="flex items-center gap-3">
@@ -240,11 +240,11 @@ function ClientesPage() {
                 </div>
               </div>
               <div className="flex gap-4">
-                <button onClick={() => setEditingId(c.id)} className="caption-brand flex items-center gap-1 text-cyan-500" style={{ fontWeight: 600 }}>
+                <button onClick={() => setEditingId(c.id)} className="admin-action-link caption-brand items-center gap-1 text-cyan-500" style={{ fontWeight: 600 }}>
                   <Pencil size={13} />
                   Editar
                 </button>
-                <button onClick={() => handleDelete(c.id)} className="caption-brand flex items-center gap-1" style={{ fontWeight: 600, color: '#c0392b' }}>
+                <button onClick={() => handleDelete(c.id)} className="admin-action-link caption-brand items-center gap-1" style={{ fontWeight: 600, color: '#c0392b' }}>
                   <Trash2 size={13} />
                   Excluir
                 </button>
